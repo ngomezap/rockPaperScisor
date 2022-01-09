@@ -7,67 +7,117 @@ function computerPlay(){
         return "paper";
     }
     else{
-        return "scisor";
+        return "scissors";
     }
-}
-
-function userPlay(){
-    let userChoice = prompt("Rock, paper or scisor?");
-    return userChoice.toLowerCase();
 }
 
 function playRound(userSelection, computerSelection){
     
     if(userSelection === "rock" && computerSelection === "paper"){
-        console.log("Computer wins! Paper beats Rock");
+        round.textContent = "Machine wins! Paper beats Rock";
         return 1;
     }
-    else if(userSelection === "paper" && computerSelection ==="scisor"){
-        console.log("Computer wins! Scisor beats Paper");
+    else if(userSelection === "paper" && computerSelection ==="scissors"){
+        round.textContent = "Machine wins! Scissors beats Paper";
         return 1;
     }
-    else if(userSelection === "scisor" && computerSelection === "rock"){
-        console.log("Computer wins! Rock beats Scisor");
+    else if(userSelection === "scissors" && computerSelection === "rock"){
+        round.textContent = "Machine wins! Rock beats Scissors";
         return 1;
     }
     else if(computerSelection === "rock" && userSelection === "paper"){
-        console.log("User wins! Paper beats Rock");
+        round.textContent = "Human wins! Paper beats Rock";
         return 2;
     }
-    else if(computerSelection === "paper" && userSelection ==="scisor"){
-        console.log("User wins! Scisor beats Paper");
+    else if(computerSelection === "paper" && userSelection ==="scissors"){
+        round.textContent = "Human wins! Scissors beats Paper";
         return 2;
     }
-    else if(computerSelection === "scisor" && userSelection === "rock"){
-        console.log("User wins! Rock beats Scisor");
+    else if(computerSelection === "scissors" && userSelection === "rock"){
+        round.textContent = "Human wins! Rock beats Scissors";
         return 2;
     }
     else{
-        console.log("It's a draw!");
+        round.textContent = "It's a draw!";
         return 0;
     }
 }
 
-function game(){
-    let comp = computerPlay();
-    let user = userPlay();
-    console.log("Computer: " + comp);
-    console.log("User: " + user);
-    let result = playRound(user, comp);
-    if (result === 1){
-        compCounter++;
+function game(userSelection){
+    if(userCounter < 5 && compCounter < 5){
+        let comp = computerPlay();
+        let user = userSelection;
+        
+        compChoice.innerHTML = `<img src="images/${comp}.png" class="userChoice">`
+        message.insertBefore(compChoice, round);
+
+        let result = playRound(user, comp);
+        if (result === 1){
+            compCounter++;
+            compName.classList.add("playing");
+            compName.addEventListener('transitionend', removeTransition);
+        }
+        else if(result === 2){
+            userCounter++;
+            userName.classList.add("playing");
+            userName.addEventListener('transitionend', removeTransition);
+        }
+        user_result.textContent = userCounter;
+        comp_result.textContent = compCounter;
+        if(userCounter === 5) {
+            para.textContent = "HUMAN WINS";
+            para.classList.add("final");
+            message.appendChild(para);
+        }else if(compCounter === 5){
+            para.textContent = "MACHINE WINS";
+            para.classList.add("final");
+            message.appendChild(para);
+        }
+            
     }
-    else if(result === 2){
-        userCounter++;
+    else
+        return;
+}
+
+function reset(){
+    userCounter = 0;
+    compCounter = 0;
+    user_result.textContent = userCounter;
+    comp_result.textContent = compCounter;
+    round.textContent = "Let's play!";
+    para.remove();
+    compChoice.remove();
+}
+
+function removeTransition(e){
+    if(e.propertyName !== "color"){
+        return;
     }
+    this.classList.remove("playing");
 }
 
 let userCounter = 0;
 let compCounter = 0;
 
-for (let i = 0; i < 5; i++){
-    game()
-}
+const btn = document.querySelectorAll("button");
+const user_result = document.getElementById("user");
+const comp_result = document.getElementById("computer");
+const message = document.getElementById("message");
+const round = document.getElementById("round");
+const para = document.createElement('p');
+const compChoice = document.createElement('div');
+const userName = document.getElementById("userName");
+const compName = document.getElementById("compName");
 
-console.log("Computer: " + compCounter);
-console.log("User: " + userCounter);
+btn.forEach(boton => {
+    boton.addEventListener('click', () => {
+        if(boton.id === "reset"){
+            reset();
+        }
+        else{
+            game(boton.id);
+        }
+    })
+});
+
+

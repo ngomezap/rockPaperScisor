@@ -1,0 +1,63 @@
+body{
+    background-color: #a8a0e259;
+}
+
+.userChoice{
+    width: 100px;
+    height: 100px;
+}
+
+#results{
+    margin-top: 0px;
+    font-size: 32px;
+    text-align: center;
+}
+
+#results p{
+    margin-top: 0px;
+}
+
+#container{
+    text-align: center;
+}
+
+#message{
+    text-align: center;
+}
+
+.final{
+    font-size: 40px;
+}
+
+.players{
+    font-size: 22px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    margin-bottom: 0px;
+    padding: 0px;
+}
+
+.playing{
+    scale: 1.2;
+    color: green;
+    font-weight: bold;
+}
+
+.players p{
+    width: 50%;
+}
+
+#userName,
+#compName{
+    transition: all 1.07s ease;
+}
+
+#userName{
+    text-align: end;
+}
+
+#compName{
+    text-align: start;
+}
